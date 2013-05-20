@@ -12,8 +12,8 @@ Strano::Application.routes.draw do
     end
   end
 
-  require 'sidekiq/web'
-  mount Sidekiq::Web => '/sidekiq'
+  # require 'sidekiq/web'
+  # mount Sidekiq::Web => '/sidekiq'
 
   root :to => "dashboard#index"
 

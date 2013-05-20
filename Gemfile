@@ -16,7 +16,6 @@ gem 'jquery-rails'
 gem 'twitter-bootstrap-rails'
 gem 'sidekiq'
 gem 'slim'
-gem 'sinatra'
 gem 'omniauth-github'
 gem 'yajl-ruby'
 gem 'faraday'
@@ -33,6 +32,10 @@ gem 'permanent_records'
 gem 'simple_form', '~> 2'
 gem 'open4'
 gem 'ansible'
+gem 'capistrano-campfire'
+gem 'brightbox'
+gem 'git'
+gem 'pivotal-tracker'
 
 # While these are not needed by Strano itself, without them installed, any project
 # that requires them will die when Strano tries to run a cap task. By using
