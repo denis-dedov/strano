@@ -1,6 +1,13 @@
+require 'digest/sha1'
+
 class User < ActiveRecord::Base
 
   cattr_accessor :disable_ssh_github_upload
+
+  attr_accessor :password
+
+  # Prevents unauthorized assignments
+  attr_protected :hashed_password
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :username, :github_data, :github_access_token
@@ -15,6 +22,8 @@ class User < ActiveRecord::Base
   # so we can clone private repos.
   after_create :upload_ssh_key_to_github
 
+  before_save :update_hashed_password
+
   default_scope where(:deleted_at => nil)
 
 
@@ -22,6 +31,16 @@ class User < ActiveRecord::Base
     self.unscoped.where 'deleted_at IS NOT NULL'
   end
 
+  def self.hash_password(clear_password)
+    Digest::SHA1.hexdigest(clear_password || '')
+  end
+
+  def self.try_to_login(username, password)
+    user = User.find_by_username(username)
+    return nil if user.blank?
+    return user if user.check_password(password)
+    nil
+  end
 
   def to_s
     username
@@ -47,16 +66,20 @@ class User < ActiveRecord::Base
     !github.nil?
   end
 
-  # If open_login is set to false in the strano settings, users may only enter if 
+  # If open_login is set to false in the strano settings, users may only enter if
   # they or an organization they belong to is explicitly allowed.
-  # 
+  #
   # Returns a Boolean
   def authorized_for_app?
     # authorized if open login is enabled or they're on the members list
     return true if Strano.open_login || Strano.allow_users_include?(username)
-    
+
     # otherwise make a call to github to see if we've allowed any of their organizations
     github.orgs.any_allowed?
+  end
+
+  def check_password(clear_password)
+    return self.hashed_password == User.hash_password(clear_password)
   end
 
   private
@@ -72,4 +95,9 @@ class User < ActiveRecord::Base
       # do nothing
     end
 
+    def update_hashed_password
+      if self.password.present?
+        self.hashed_password = User.hash_password(password)
+      end
+    end
 end

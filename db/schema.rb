@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120913160334) do
+ActiveRecord::Schema.define(:version => 20130528141318) do
 
   create_table "jobs", :force => true do |t|
     t.string   "task"
@@ -45,11 +45,12 @@ ActiveRecord::Schema.define(:version => 20120913160334) do
     t.string   "username"
     t.string   "github_access_token"
     t.text     "github_data"
-    t.boolean  "ssh_key_uploaded_to_github", :default => false
+    t.boolean  "ssh_key_uploaded_to_github",               :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
     t.string   "token"
+    t.string   "hashed_password",            :limit => 40, :default => "",    :null => false
   end
 
   add_index "users", ["username"], :name => "index_users_on_username"
