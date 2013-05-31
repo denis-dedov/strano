@@ -4,7 +4,7 @@ class Job < ActiveRecord::Base
 
   belongs_to :project
   belongs_to :user
-  after_commit :execute_task, :on => :create
+  after_create :execute_task
 
   default_scope order('created_at DESC')
   default_scope where(:deleted_at => nil)
@@ -70,5 +70,4 @@ class Job < ActiveRecord::Base
     def execute_task
       CapExecute.perform_async id
     end
-
 end

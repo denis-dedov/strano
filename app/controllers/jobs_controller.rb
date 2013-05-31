@@ -4,8 +4,10 @@ class JobsController < InheritedResources::Base
   actions :all, :except => :index
   respond_to :json, :only => :show
 
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, unless: :no_gui?
+  before_filter :basic_authentication!, if: :no_gui?
   before_filter :ensure_unlocked_project, :only => [:new, :create, :delete]
+  before_filter :normalize_params!, if: :no_gui?
 
   rescue_from Strano::ProjectCapError do |e|
     redirect_to parent
@@ -23,6 +25,7 @@ class JobsController < InheritedResources::Base
 
   def create
     create! :notice => "Your new job is being processed..."
+    head :ok if no_gui?
   end
 
 
@@ -42,4 +45,22 @@ class JobsController < InheritedResources::Base
       end
     end
 
+    def basic_authentication!
+      authenticate_or_request_with_http_basic do |username, password|
+        current_user = User.try_to_login(username, password)
+        session[:user_id] = current_user.id if current_user.present?
+      end
+    end
+
+    def basic_logged?
+      request.authorization.present?
+    end
+
+    def no_gui?
+      params[:no_gui].present?
+    end
+
+    def normalize_params!
+      params[:job] = params.slice(:task, :stage, :branch, :notes, :verbosity).merge(params[:job] || {})
+    end
 end
