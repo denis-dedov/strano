@@ -22,29 +22,29 @@ module Strano
     # The application key of the Strano application in Github. See
     # https://github.com/account/applications
     DEFAULT_GITHUB_KEY = nil
-    
+
     # The application secret of the Strano application in Github. See
     # https://github.com/account/applications
     DEFAULT_GITHUB_SECRET = nil
-    
+
     # Allow project creation from repos for Github organization accounts.
     # Default value is true, which allows any and all organizations. Set to
     # false to disallow creating projects from organizations completely.
     # Pass an array of Github organization usernames to restrict which
     # projects Strano can create new projects for.
-    DEFAULT_ALLOW_ORGANIZATIONS = true
-    
+    DEFAULT_ALLOW_ORGANIZATIONS = ['citysafe']
+
     # Allow project creation from repos for Github user accounts. Default
     # value is true, which allows any and all users. Set to false to disallow
     # creating projects from users completely. Pass an array of Github
     # usernames to restrict which projects Strano can create new projects for.
-    DEFAULT_ALLOW_USERS = true
-    
+    DEFAULT_ALLOW_USERS = false
+
     # Any user with a Github account can create new deployments. Default
     # values if true. Setting this to false will only allow users to log in to
     # the app if they are listed under 'allow_users' or a member of one of the
     # organizations under 'allow_organizations'.
-    DEFAULT_OPEN_LOGIN = true
+    DEFAULT_OPEN_LOGIN = false
 
     attr_accessor *VALID_OPTIONS_KEYS
 
