@@ -1,9 +1,8 @@
 class ProjectsController < InheritedResources::Base
 
-  before_filter :authenticate_user!, except: :deploy
+  before_filter :authenticate_user!
   before_filter :pull_repo, :only => [:show, :edit]
-  before_filter :ensure_accessibility_by_current_user, :except => [:index, :new, :new_github, :create, :deploy]
-  before_filter :basic_authentication!, only: :deploy
+  before_filter :ensure_accessibility_by_current_user, :except => [:index, :new, :new_github, :create]
 
   respond_to :json, :only => :show
 
@@ -21,10 +20,6 @@ class ProjectsController < InheritedResources::Base
     redirect_to resource, :notice => "Local repository is being updated..."
   end
 
-  def deploy
-    #TODO: create job to deploy
-  end
-
   def destory
     destroy! { root_url(:anchor => "projects") }
   end
@@ -40,15 +35,5 @@ class ProjectsController < InheritedResources::Base
 
     def pull_repo
       resource.pull
-    end
-
-    def basic_authentication!
-      authenticate_or_request_with_http_basic do |username, password|
-        @current_user = User.try_to_login(username, password)
-      end
-    end
-
-    def basic_logged?
-      request.authorization.present?
     end
 end
