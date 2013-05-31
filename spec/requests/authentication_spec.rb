@@ -6,6 +6,7 @@ describe "Authentication" do
     use_vcr_cassette 'Github_Key/_create', :erb => true
 
     before(:each) do
+      Strano.open_login = true
       OmniAuth.config.mock_auth[:github] = { :credentials => { :token => "65r6w5er1w6er5w65ef1" },
                                              :extra => {
                                                :raw_info => {
