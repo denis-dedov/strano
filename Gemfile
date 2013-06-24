@@ -16,7 +16,7 @@ group :assets do
   gem 'twitter-bootstrap-rails', '2.0.5'
 end
 
-gem 'sidekiq'
+gem 'sidekiq', '2.12'
 gem 'slim'
 gem 'omniauth-github'
 gem 'yajl-ruby'
