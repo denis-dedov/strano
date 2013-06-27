@@ -37,7 +37,7 @@ GEM
     brightbox (2.3.9)
       capistrano (>= 2.5)
     builder (3.0.4)
-    capistrano (2.13.5)
+    capistrano (2.14.1)
       highline
       net-scp (>= 1.0.0)
       net-sftp (>= 2.0.0)
@@ -46,6 +46,8 @@ GEM
     capistrano-campfire (0.2.1)
       capistrano
       tinder
+    capistrano-ext (1.2.1)
+      capistrano (>= 1.0.0)
     capistrano_colors (0.5.5)
     capistrano_rsync_with_remote_cache (2.4.0)
       capistrano (>= 2.1.0)
@@ -113,7 +115,7 @@ GEM
       libxml-ruby (~> 2.0)
     has_scope (0.5.1)
     hashie (1.2.0)
-    highline (1.6.15)
+    highline (1.6.19)
     hike (1.2.1)
     http_parser.rb (0.5.3)
     httparty (0.11.0)
@@ -150,13 +152,13 @@ GEM
     multi_xml (0.5.3)
     multipart-post (1.1.5)
     mysql2 (0.3.11)
-    net-scp (1.0.4)
-      net-ssh (>= 1.99.1)
-    net-sftp (2.0.5)
-      net-ssh (>= 2.0.9)
-    net-ssh (2.6.2)
-    net-ssh-gateway (1.1.0)
-      net-ssh (>= 1.99.1)
+    net-scp (1.1.1)
+      net-ssh (>= 2.6.5)
+    net-sftp (2.1.2)
+      net-ssh (>= 2.6.5)
+    net-ssh (2.6.7)
+    net-ssh-gateway (1.2.0)
+      net-ssh (>= 2.6.5)
     newrelic_rpm (3.3.3)
     nokogiri (1.5.9)
     nokogiri-happymapper (0.5.7)
@@ -304,8 +306,9 @@ DEPENDENCIES
   airbrake
   ansible
   brightbox
-  capistrano (~> 2.13)
+  capistrano (= 2.14.1)
   capistrano-campfire
+  capistrano-ext
   capistrano_colors
   capistrano_rsync_with_remote_cache
   coffee-rails (~> 3.2.1)
