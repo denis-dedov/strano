@@ -53,7 +53,7 @@ namespace :deploy do
 
   namespace :sidekiq do
     task :restart do
-      run "if [ -f #{deploy_to}/shared/tmp/pids/sidekiq.pid ]; then kill `cat #{deploy_to}/shared/tmp/pids/sidekiq.pid`; fi"
+      run "if [ -f #{deploy_to}/shared/tmp/pids/sidekiq.pid ]; then kill -QUIT `cat #{deploy_to}/shared/tmp/pids/sidekiq.pid`; fi"
       run "cd #{release_path} && bundle exec sidekiq start -d -L #{deploy_to}/shared/log/sidekiq.log -P #{deploy_to}/shared/pids/sidekiq.pid"
     end
   end
