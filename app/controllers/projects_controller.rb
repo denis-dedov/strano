@@ -36,4 +36,8 @@ class ProjectsController < InheritedResources::Base
     def pull_repo
       resource.pull
     end
+
+    def resource
+      @project ||= resource_class.find_by_id_or_name(params[:id])
+    end
 end

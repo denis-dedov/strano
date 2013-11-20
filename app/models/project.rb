@@ -22,9 +22,24 @@ class Project < ActiveRecord::Base
 
   default_scope where(:deleted_at => nil)
 
+  class << self
 
-  def self.deleted
-    self.unscoped.where 'deleted_at IS NOT NULL'
+    def find_by_name(name)
+      all.select{ |project| project.repo.repo_name == name }.first
+    end
+
+    def find_by_name!(name)
+      find_by_name(name) || raise(ActiveRecord::RecordNotFound)
+    end
+
+    def find_by_id_or_name(attr)
+      find_by_id(attr) || find_by_name!(attr)
+    end
+
+    def deleted
+      self.unscoped.where 'deleted_at IS NOT NULL'
+    end
+
   end
 
   def to_s
