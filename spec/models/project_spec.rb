@@ -23,4 +23,15 @@ describe Project do
     it { @project.github.should be_a(Github::Repo) }
   end
 
+  context 'should return project', :vcr => { :cassette_name => 'Github_Repo/_repo' } do
+    context 'if we search it by id' do
+      it { Project.find_by_id_or_name!(@project.id).should == @project }
+    end
+
+    context 'if we search it by name' do
+      let(:project_name) { 'strano' }
+      it { Project.find_by_id_or_name!(project_name).should == @project }
+    end
+  end
+
 end

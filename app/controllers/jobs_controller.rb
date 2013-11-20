@@ -1,6 +1,6 @@
 class JobsController < InheritedResources::Base
 
-  belongs_to :project, finder: :find_by_id_or_name
+  belongs_to :project, finder: :find_by_id_or_name!
   actions :all, :except => :index
   respond_to :json, :only => :show
 

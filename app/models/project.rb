@@ -32,7 +32,7 @@ class Project < ActiveRecord::Base
       find_by_name(name) || raise(ActiveRecord::RecordNotFound)
     end
 
-    def find_by_id_or_name(attr)
+    def find_by_id_or_name!(attr)
       find_by_id(attr) || find_by_name!(attr)
     end
 

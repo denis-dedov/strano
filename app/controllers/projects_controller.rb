@@ -38,6 +38,6 @@ class ProjectsController < InheritedResources::Base
     end
 
     def resource
-      @project ||= resource_class.find_by_id_or_name(params[:id])
+      @project ||= resource_class.find_by_id_or_name!(params[:id])
     end
 end
