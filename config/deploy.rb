@@ -34,9 +34,9 @@ namespace :deploy do
   end
 
   task :make_release_symlinks_in_web_directory do
-    run 'if [ -d /var/www/strano/public ]; then rm /var/www/strano/public; fi'
+    run 'if [ -L /var/www/strano/public ]; then rm /var/www/strano/public; fi'
     run "ln -s #{release_path}/public /var/www/strano/public"
-    run 'if [ -d /var/www/strano/strano-production ]; then rm /var/www/strano/strano-production; fi'
+    run 'if [ -L /var/www/strano/strano-production ]; then rm /var/www/strano/strano-production; fi'
     run "ln -s #{release_path} /var/www/strano/strano-production"
   end
 
@@ -53,7 +53,7 @@ namespace :deploy do
 
   namespace :sidekiq do
     task :restart do
-      run "if [ -f #{deploy_to}/shared/tmp/pids/sidekiq.pid ]; then kill -QUIT `cat #{deploy_to}/shared/tmp/pids/sidekiq.pid`; fi"
+      run "if [ -f #{deploy_to}/shared/tmp/pids/sidekiq.pid ] && ps -p `cat #{deploy_to}/shared/tmp/pids/sidekiq.pid`; then kill -QUIT `cat #{deploy_to}/shared/tmp/pids/sidekiq.pid`; fi"
       run "cd #{release_path} && bundle exec sidekiq start -d -L #{deploy_to}/shared/log/sidekiq.log -P #{deploy_to}/shared/tmp/pids/sidekiq.pid"
     end
   end
