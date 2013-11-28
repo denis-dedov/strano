@@ -1,6 +1,6 @@
 class Github
   class Base
-  
+
     METHODS = [ :get, :post, :put, :delete, :patch ]
     METHODS_WITH_BODIES = [ :post, :put, :patch ]
 
@@ -30,16 +30,19 @@ class Github
               request.body = MultiJson.encode(params) unless params.empty?
           end
         end
-      
+
         response.body
       end
-    
+
       def connection(options = {})
-        @connection ||= FaradayStack.build header_options.merge(options) do |builder|
-          builder.use Faraday::Response::Mashify
+        @connection ||= Faraday.new header_options.merge(options) do |builder|
+          builder.use FaradayMiddleware::Mashify
+          builder.use FaradayMiddleware::ParseJson, content_type: /\bjson$/
+
+          builder.adapter Faraday.default_adapter
         end
       end
-  
+
       def header_options
         {
           :headers => {
