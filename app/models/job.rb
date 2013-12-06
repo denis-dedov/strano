@@ -60,11 +60,15 @@ class Job < ActiveRecord::Base
   private
 
     def full_command
-      %W(-f #{Rails.root.join('Capfile.repos')} -f Capfile -Xx#{verbosity}) + branch_setting + command.split(' ')
+      %W(-f #{Rails.root.join('Capfile.repos')} -f Capfile -Xx#{verbosity}) + branch_setting + current_job_url_param + command.split(' ')
     end
 
     def branch_setting
       %W(-s branch=#{branch}) unless branch.blank?
+    end
+
+    def current_job_url_param
+      %W(-s strano_deploy_url=http://strano.isarops.com/projects/#{ project.id }/jobs/#{ id })
     end
 
     def execute_task
