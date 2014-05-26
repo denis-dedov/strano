@@ -38,6 +38,7 @@ gem 'ansible'
 gem 'brightbox'
 gem 'git'
 gem 'pivotal-tracker'
+gem 'capistrano-slack'
 
 # While these are not needed by Strano itself, without them installed, any project
 # that requires them will die when Strano tries to run a cap task. By using
